@@ -5,7 +5,7 @@
 #       author:  cr0ky
 
 INPUT=input2.txt
-total=0
+totalW=0
 
 while read line
 do
@@ -31,7 +31,20 @@ do
                 fi
         fi
 
-        total=$(($total + $((s1*2)) + $((s2*2)) + $((s3*2)) + $slack))
+        totalW=$(($totalW + $((s1*2)) + $((s2*2)) + $((s3*2)) + $slack))
+
+        if [[ $L -le $H && $W -le $H ]]; then
+                rib=$(( (($L+$L+$W+$W)) + (($L*$W*$H)) ))
+        fi
+        if [[ $L -le $W && $H -le $W ]]; then
+                rib=$(( (($L+$L+$H+$H)) + (($L*$W*$H)) ))
+        fi
+        if [[ $H -le $L && $W -le $L ]]; then
+                rib=$(( (($H+$H+$W+$W)) + (($L*$W*$H)) ))
+        fi
+
+        totalR=$(($totalR + $rib ))
 
 done < "$INPUT"
-echo $total
+echo "Wrapping paper: $totalW"
+echo "Ribbon: $totalR"
